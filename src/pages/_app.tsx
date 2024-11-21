@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
   // checks that we are client-side
   posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
     api_host:
@@ -14,10 +14,9 @@ if (typeof window !== "undefined") {
   });
 }
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps }
-}: any) {
+import type { AppProps } from "next/app";
+
+export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <PostHogProvider client={posthog}>
